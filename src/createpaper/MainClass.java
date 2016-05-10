@@ -2,7 +2,7 @@ package createpaper;
 
 import java.sql.SQLException;
 //import java.util.ArrayList;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 
 public class MainClass {
@@ -14,9 +14,10 @@ public class MainClass {
 		 */
 		//InsertIntoDatabase idb= new InsertIntoDatabase();
 		//idb.createTable(100);
-		//	qp1.readDatabase();
 		QuestionPaper qp1= new QuestionPaper();
+		qp1.readDatabase();
 		
+		/*	
 		ArrayList<String> questionSet1 = new ArrayList<String>(1);
 	  	questionSet1= qp1.getQuestionPaper(20);
 	    System.out.println(questionSet1);
@@ -33,7 +34,7 @@ public class MainClass {
 		for (ArrayList<String> s:questionSet3) {
     	 	  System.out.println(s);
 	    }
-	
+	*/
 	}
 
 }

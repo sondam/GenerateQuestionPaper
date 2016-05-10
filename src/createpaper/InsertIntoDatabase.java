@@ -33,18 +33,28 @@ public class InsertIntoDatabase {
 			      stmt.executeUpdate(sql1);
 			      String sql2 = "CREATE table IF NOT EXISTS Questions"
 			    		  +"(id INTEGER PRIMARY KEY not NULL, " +
-		                   " ques VARCHAR(25))"; 
+			    		   " ques VARCHAR(25),"+
+			    		   " op1 VARCHAR(25),"+
+			    		   " op2 VARCHAR(25),"+
+			    		   " op3 VARCHAR(25),"+
+		                   " op4 VARCHAR(25),"+
+		                   " correctAns VARCHAR(25))"; 
 			      
 			      stmt.executeUpdate(sql2);
 			      String query = "INSERT INTO "
-				      		+ "Questions ( id, ques )"
-				      		+ " VALUES ( ?, ?)";
+				      		+ "Questions ( id, ques, op1, op2, op3, op4, correctAns )"
+				      		+ " VALUES ( ?, ?, ?, ?, ?, ?, ?)";
 			      PreparedStatement stmt1 = conn.prepareStatement(query);   
 				 
 			   //   System.out.println("no of questions in database are "+noofQuestions);
 				  for(int i=1; i < noofQuestions+1 ; i++){		      
 				      stmt1.setInt(1, i);
 				      stmt1.setString(2, "Q"+i);
+				      stmt1.setString(3, "option1");
+				      stmt1.setString(4, "option2");
+				      stmt1.setString(5, "option3");
+				      stmt1.setString(6, "option4");
+				      stmt1.setString(7, "option1");
 				      stmt1.addBatch();
 				      }
 			      stmt1.executeBatch();

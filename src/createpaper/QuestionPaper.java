@@ -36,7 +36,7 @@ public class QuestionPaper {
 		      stmt = conn.createStatement();
 		      
 		      ResultSet rs = null;
-			  String  sql = "Select count(*) from Questions";
+			  String  sql = "Select * from Questions";
 			  rs = stmt.executeQuery(sql);   
 			  ArrayList <String> question = new ArrayList<String>();  
 			  while (rs.next()){
