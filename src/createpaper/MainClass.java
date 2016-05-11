@@ -15,10 +15,10 @@ public class MainClass {
 		//InsertIntoDatabase idb= new InsertIntoDatabase();
 		//idb.createTable(100);
 		QuestionPaper qp1= new QuestionPaper();
-	//	System.out.println("Questions in database"); 
-	//	qp1.readDatabase();
-	//	 System.out.println("********************************************************");
-			
+		//	System.out.println("Questions in database"); 
+		//	qp1.readDatabase();
+		//	System.out.println("********************************************************");
+				
 		ArrayList<String> questionSet1 = new ArrayList<String>(1);
 	  	questionSet1= qp1.getQuestionPaper(10);
 	  	System.out.println("QuestionSet1");
