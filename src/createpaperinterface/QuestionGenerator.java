@@ -72,10 +72,10 @@ public class QuestionGenerator extends JFrame {
 		   
 		    panels[i].add(labels[i]);
 		
-		       JRadioButton radioButton1 = new JRadioButton("option1");
-		       JRadioButton radioButton2 = new JRadioButton("option2");
-		       JRadioButton radioButton3 = new JRadioButton("option3");
-		       JRadioButton radioButton4 = new JRadioButton("option4");
+		       JRadioButton radioButton1 = new JRadioButton("1");
+		       JRadioButton radioButton2 = new JRadioButton("2");
+		       JRadioButton radioButton3 = new JRadioButton("3");
+		       JRadioButton radioButton4 = new JRadioButton("4");
 		 
 		  
 			    panels[i].add(radioButton1);

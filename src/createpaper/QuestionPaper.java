@@ -38,13 +38,18 @@ public class QuestionPaper {
 		      ResultSet rs = null;
 			  String  sql = "Select * from Questions";
 			  rs = stmt.executeQuery(sql);   
-			  ArrayList <String> question = new ArrayList<String>();  
+			//  ArrayList <String> question = new ArrayList<String>();  
+			//  ArrayList <String> options = new ArrayList<String>();  
+			 // ArrayList <String> correctAnswer = new ArrayList<String>();  
 			  while (rs.next()){
-				  question.add(rs.getString(2));
+				  System.out.print(rs.getString(2)+" ");
+				  System.out.print(rs.getString(3)+" ");
+				  System.out.print(rs.getString(4)+" ");
+				  System.out.print(rs.getString(5)+" ");
+				  System.out.println(rs.getString(6));
+				  
 			  }
-			  System.out.println(question);
-			 // int totalq=question.size();
-		     
+			 
 		   }catch(SQLException se){
 			      //Handle errors for JDBC
 			      se.printStackTrace();
@@ -68,15 +73,37 @@ public class QuestionPaper {
 			 
 			
 	   }
+	   public int num() throws Exception {
+		   try {
+			     Class.forName("com.mysql.jdbc.Driver");
+
+			      //STEP 3: Open a connection
+			     
+			      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			      
+			      
+			      //STEP 4: Execute a query
+			     
+			      stmt = conn.createStatement();
+			      ResultSet rs;
+			      rs = stmt.executeQuery("select count(*) from Questions;");
+			      int totalq=0;
+				   while (rs.next()) {
+					     totalq=totalq+1;
+				   return rs.getInt(1);
+				   }
+				  } catch (Exception e) {
+				  }
+		return totalq;
 	
-	
+	   }
 	
 		//--------------------------------------------------------------------
 		public ArrayList<String>  getQuestionPaper(int num) {
 			
 			
 		    //Array list declared to store integer for storing index
-			ArrayList<Integer> templist = new ArrayList<Integer>();
+			ArrayList<Integer> templist = new ArrayList<Integer>(num);
 	        //Array list declared to store questions at specific index
 	        ArrayList<String> templist1 = new ArrayList<String>(num);
 	        //ArrayList<String> templist2 = new ArrayList<String>(num);
@@ -84,32 +111,54 @@ public class QuestionPaper {
 	           Class.forName("com.mysql.jdbc.Driver");
 		       conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		       stmt = conn.createStatement();
-		      
-		       ResultSet rs = null;
-			   String  sql = "Select * from Questions";
-			   rs = stmt.executeQuery(sql); 
-			   ArrayList <String> question = new ArrayList<String>();  
-			   while (rs.next()){
-				  question.add(rs.getString(2));
-				  totalq= totalq+1;
-			   }
-			 // System.out.println(question);
-			  Random rn = new Random();
+		       int totalq= num();
+			  // System.out.println("total ques "+ totalq);
+			   Random rn = new Random();
               //random number generating index from where question can be picked
+			   
               while (templist.size() < num) {
        	
 			        int random = rn.nextInt(totalq);
 			            // make sure same number is not generated twice
 					 if (!templist.contains(random)) {
-					  	templist.add(random);
+					  	templist.add(random); 				      
 					 }
+					 
 			     }
 		         //for each index add questions and save to another ArrayList
+                
+             //   System.out.println(templist);
 		     for (Integer i:templist) {
-			     templist1.add(question.get(i));
-		}
+		    	 ResultSet rs1 = null;
+		    	 int index= i;
+		    	//  System.out.println(index);
+				   String  sql2 = "Select ques,op1,op2,op3,op4 from Questions where id =  '" + index +"'";
+				   PreparedStatement stmt1 = conn.prepareStatement(sql2);   
+					 
+				   //   System.out.println("no of questions in database are "+noofQuestions);
+				         rs1 = stmt1.executeQuery();
+				     
+				         if(rs1.next()){}
+				    /*    System.out.println(rs1.getString("ques"));
+				        System.out.println(rs1.getString("op1"));
+				        System.out.println(rs1.getString("op2"));
+				        System.out.println(rs1.getString("op3"));
+				        System.out.println(rs1.getString("op4"));
+				       */
+				          templist1.add(rs1.getString("ques")+
+				        		   ","+rs1.getString("op1")+
+								   ","+rs1.getString("op2")+","+rs1.getString("op3")+
+								   ","+rs1.getString("op4"));
+				          stmt1.close();
+				          
+				      }
+				   
+				   
+				 //  System.out.println("templist1"+templist1);
+			    
+	}
 			 
-	       }catch(SQLException se){
+	       catch(SQLException se){
 			      //Handle errors for JDBC
 			      se.printStackTrace();
 			   }catch(Exception e){
