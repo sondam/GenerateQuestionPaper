@@ -1,21 +1,30 @@
 package createpaperinterface;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.TextField;
 import java.util.ArrayList;
+import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import createpaper.QuestionPaper;
 
+
 //import javax.swing.border.EmptyBorder;
 
-public class QuestionGenerator extends JFrame {
+public class QuestionGenerator extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private int numClicks = 0;
+	TextField text = new TextField(20);
+	JLabel labelCorrectAns = new JLabel();
+
 	/**
 	 * Launch the application.
 	 */
@@ -55,13 +64,24 @@ public class QuestionGenerator extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		
 		JPanel[] panels = new JPanel[questionSet1.size()];
    		JLabel[] labels = new JLabel[questionSet1.size()];
-   			
+   		
+   		JLabel label = new JLabel("All questions are mandary to answer"); 
+	    JPanel panel = new JPanel( );
+	    contentPane.add(panel);
+	    Font font = new Font("Courier", Font.BOLD,18);
+        //set font for JLabel
+        label.setFont(font);
+        panel.add(label);
+
+   		
 		for (int i = 0; i < questionSet1.size(); i++)
 		{   panels[i] = new JPanel( );
 		    labels[i] = new JLabel( );
 			contentPane.add(panels[i],BorderLayout.NORTH);
+			panels[i].setPreferredSize(new Dimension(400, 50));
 			String str = questionSet1.get(i);
 			//ArrayList<String> questionOption = (str.split(","));
 				String string[]=str.split(",");
@@ -102,12 +122,35 @@ public class QuestionGenerator extends JFrame {
 				   
 				   panels[i].setVisible(true);
 				   labels[i].setVisible(true);
+		
 		   
 		}
-				
-		JButton submitBut = new JButton("Submit"); 
-		contentPane.add(submitBut);
+	    JButton submitBut = new JButton("Submit"); 
+		//contentPane.add(submitBut);
+		
+	    JPanel panel1 = new JPanel( );
+	    contentPane.add(panel1);
+	    panel1.add(submitBut);
+	   
+            // action listener for submit button
+	    add(text);
+	    add(labelCorrectAns);
+        submitBut.addActionListener(this);
+    
+			
+		
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		numClicks++;
+        text.setText("Button Clicked " + numClicks + " times");
+        labelCorrectAns.setText("Button Clicked " + numClicks + " times");
+	}
+
+	
+
+
+	
 	
 }
