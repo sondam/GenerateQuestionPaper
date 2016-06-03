@@ -2,8 +2,6 @@ package createpaperinterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.TextField;
 import java.util.ArrayList;
@@ -24,7 +22,12 @@ public class QuestionGenerator extends JFrame implements ActionListener {
 	private int numClicks = 0;
 	TextField text = new TextField(20);
 	JLabel labelCorrectAns = new JLabel();
-	
+	ArrayList<String> questionSet1 = new ArrayList<String>();
+	QuestionPaper qp1= new QuestionPaper();
+	JPanel[] panels = new JPanel[questionSet1.size()];
+	ArrayList<JPanel> questionPanelArray = new ArrayList<JPanel>();
+	ArrayList<String> CorrectAnswer = new ArrayList<String>();
+	ArrayList<String> SelectedAnswer = new ArrayList<String>();
 	/**
 	 * Launch the application.
 	 */
@@ -47,12 +50,9 @@ public class QuestionGenerator extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		
 		//Component[] components ;
-		ArrayList<String> questionSet1 = new ArrayList<String>();
-		QuestionPaper qp1= new QuestionPaper();
-		ArrayList<String> CorrectAnswer = new ArrayList<String>();
-		
+			
 	  	questionSet1= qp1.getQuestionPaper(20);
-	  	JPanel[] panels = new JPanel[questionSet1.size()];
+	  	
 		//JLabel[] labels = new JLabel[questionSet1.size()];
    		System.out.println(questionSet1);
    		
@@ -69,10 +69,12 @@ public class QuestionGenerator extends JFrame implements ActionListener {
 
    		
 		for (int i = 0; i < questionSet1.size(); i++)
-		{   panels[i] = new QuestionPanel( );
+		{   //panels[i] = new QuestionPanel( );
+		   
 		   // labels[i] = new JLabel( );
-			contentPane.add(panels[i],BorderLayout.NORTH);
-			
+			//contentPane.add(panels[i],BorderLayout.NORTH);
+		   //panels[i] = questionPanelArray.get(i);
+		   
 			String str = questionSet1.get(i);
 			
 			//ArrayList<String> questionOption = (str.split(","));
@@ -82,33 +84,42 @@ public class QuestionGenerator extends JFrame implements ActionListener {
 				String op3= null;
 				String op4= null;
 				String ques=null;
+				String correctAns=null;
 			    for(String y:string){
 				       ques = string[0];
 		               op1 = string[1];
 		               op2 = string[2];
 		               op3 = string[3];
 		               op4 = string[4];
-		           
+		               correctAns=string[5];
 		         }
-			  
-		//    labels[i].setText(questionSet1.get(i));
+			    CorrectAnswer.add(correctAns);
+			    
+			   // System.out.println(correctAns);
+	        	//    labels[i].setText(questionSet1.get(i));
 				  // labels[i].setText(ques);
 				  // panels[i].add(labels[i]);
 			    
 				   QuestionPanel qp = new QuestionPanel();
-				   qp.setComponent(ques,op1,op2,op3,op4);
-				   contentPane.add(qp.getPanel());
+				   qp.setComponent(ques,op1,op2,op3,op4,correctAns);
+				   JPanel pa= (qp.getPanel());
+				   contentPane.add(pa);
 				   
-		
+				  // System.out.println(qp.noOfComponents());
+				   questionPanelArray.add(pa);
+				   contentPane.add(questionPanelArray.get(i));
+				   
+				  // System.out.println(questionPanelArray.get(i));
 				 //  labels[i].setVisible(true);
-				   Component[] components = panels[i].getComponents();
+				/*   Component[] components = panels[i].getComponents();
 			        for (Component c : components) {
 			        	JRadioButton cb = (JRadioButton) c;
 			          if (cb.isSelected())
 			           CorrectAnswer.add(cb.getText());
-			          System.out.println(cb.getText());
+			          System.out.println("correct answer is"+ cb.getText());
+			          
 			        }
-				  
+				  */
 		}
 		//System.out.println(panels.toString());
 		
@@ -120,9 +131,9 @@ public class QuestionGenerator extends JFrame implements ActionListener {
 	    panel1.add(submitBut);
 	   
             // action listener for submit button
-	    add(text);
-	    add(labelCorrectAns);
-        submitBut.addActionListener(this);
+	    panel1.add(text);
+	    panel1.add(labelCorrectAns);
+	    submitBut.addActionListener(this);
     	
 	}
 
@@ -130,9 +141,53 @@ public class QuestionGenerator extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		numClicks++;
         text.setText("Button Clicked " + numClicks + " times");
-        labelCorrectAns.setText("Button Clicked " + numClicks + " times");
         
-       
+        /*
+   		 * adding selected answers to array
+   		 */
+        {
+        	if (e.getActionCommand().equals("Submit")) 
+	        {
+	       
+				for (JPanel p: questionPanelArray)
+					for (Component c: p.getComponents())
+						if (c instanceof JRadioButton)
+							if(((JRadioButton) c).isSelected())
+							{
+								SelectedAnswer.add(((JRadioButton) c).getText());
+								//System.out.println(((JRadioButton) c).getText());				
+		                    }    
+							
+			 }
+	        
+	        /*
+	   		 * counting number of correct answers
+	   		 */
+	        int noOFCorrectAnswers= 0;
+	        for(int counter = 0; counter < CorrectAnswer.size(); counter++) 
+	        {
+	            if((SelectedAnswer.get(counter)).equals(CorrectAnswer.get(counter)) )
+	            {
+					noOFCorrectAnswers++;
+	             }
+	        }
+	        
+	        labelCorrectAns.setText(" No of correct Answers " + noOFCorrectAnswers);
+	        System.out.println(noOFCorrectAnswers);
+	        System.out.println(SelectedAnswer);
+	        System.out.println(CorrectAnswer);
+	        
+	        /*
+	   		 * disabling radio button after submit button click
+	   		 */
+	        for (JPanel p: questionPanelArray)
+				for (Component c: p.getComponents())
+				{
+					if (c instanceof JRadioButton)
+	                      c.setEnabled(false);
+	            }
+	        
+	        
 	}
-	
-}
+	}}
+

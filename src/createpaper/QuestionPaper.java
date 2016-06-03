@@ -132,14 +132,14 @@ public class QuestionPaper {
 		    	 ResultSet rs1 = null;
 		    	 int index= i;
 		    	//  System.out.println(index);
-				   String  sql2 = "Select ques,op1,op2,op3,op4 from Questions where id =  '" + index +"'";
+				   String  sql2 = "Select ques,op1,op2,op3,op4,correctAns from Questions where id =  '" + index +"'";
 				   PreparedStatement stmt1 = conn.prepareStatement(sql2);   
 					 
 				   //   System.out.println("no of questions in database are "+noofQuestions);
 				         rs1 = stmt1.executeQuery();
 				     
 				         if(rs1.next()){}
-				    /*    System.out.println(rs1.getString("ques"));
+				    /*  System.out.println(rs1.getString("ques"));
 				        System.out.println(rs1.getString("op1"));
 				        System.out.println(rs1.getString("op2"));
 				        System.out.println(rs1.getString("op3"));
@@ -147,8 +147,10 @@ public class QuestionPaper {
 				       */
 				          templist1.add(rs1.getString("ques")+
 				        		   ","+rs1.getString("op1")+
-								   ","+rs1.getString("op2")+","+rs1.getString("op3")+
-								   ","+rs1.getString("op4"));
+								   ","+rs1.getString("op2")+
+								   ","+rs1.getString("op3")+
+								   ","+rs1.getString("op4")+
+								   ","+rs1.getString("correctAns"));
 				          stmt1.close();
 				          
 				      }
